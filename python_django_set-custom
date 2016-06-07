@@ -65,6 +65,8 @@ $ django-admin startproject djprojone
 ### idle themes ###
 ## to add custom themes edit file ~/.idlerc/config-highlight.cfg
 	## insert theme names and color configuration
+	# [Obsidian]
+	# https://gist.github.com/dsosby/1122904	
 	# [desert]
 	# http://ubuntuforums.org/showthread.php?t=657799
 	# [Matrix]
@@ -72,9 +74,7 @@ $ django-admin startproject djprojone
 	# [Custom Dark]
 	# [Custom Light]
 	# http://stackoverflow.com/questions/33064424/idle-background-color-in-python
-	# [Obsidian]
-	# https://gist.github.com/dsosby/1122904	
-## edit file ~/.idlerc/config-highlight.cfg
+## edit file ~/.idlerc/config-main.cfg
 [Theme]
 default = 0
 name = //your default theme name//
