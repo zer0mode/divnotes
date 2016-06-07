@@ -1,0 +1,23 @@
+### git install hub go
+## use standalone install https://github.com/github/hub or
+## install hub from source Go environment needs to be available
+## if installing to custom location & other details check https://golang.org/doc/install
+# download a release from https://golang.org/dl/
+# extract archive into /usr/local
+$ tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz
+# add to PATH
+$ export PATH=$PATH:/usr/local/go/bin
+## cd to hub installation source folder
+$ cd /hub/install/folder
+# clone hub from source
+$ git clone https://github.com/github/hub.git
+$ cd hub
+# build to a folder visible by PATH anywhere in ~
+$ ./script/build -o ~/bin/hub
+# move executable or create a symlink elsewhere by preference
+$ sudo ln -s ~/bin/hub /usr/local/bin/hub
+
+# hub shell auto-completion is available by adding to .bashrc
+if [ -f /path/to/hub.bash_completion ]; then
+    . /path/to/hub.bash_completion
+fi

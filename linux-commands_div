@@ -1,0 +1,54 @@
+### run terminal window
+[Ctrl+Alt+T]
+## terminator
+	# split verticaly
+	[Ctrl+Shift+E]
+	# split horizontaly
+	[Ctrl+Shift+O]
+
+### application finder
+[Alt+F2]
+
+# https://help.ubuntu.com/community/find
+o@o-ecb:/$ find / -iname '*filename*' > ~/found
+
+# To show history from all terminals:
+# Add export PROMPT_COMMAND='history -a; history -r' to your .bashrc file.
+# https://askubuntu.com/questions/80371/bash-history-handling-with-multiple-terminals#80380
+	# https://askubuntu.com/questions/80371/bash-history-handling-with-multiple-terminals#comment-90735
+# https://askubuntu.com/questions/80371/bash-history-handling-with-multiple-terminals#369184
+
+# run a jar
+# example -> java -jar runmy.jar
+$ java -jar yed.jar
+
+## PPA - Personal Package Archive
+# https://launchpad.net/+help-soyuz/ppa-sources-list.html
+	#check also https://help.ubuntu.com/community/Repositories/CommandLine
+# PPA's location-> ppa:user/ppa-name //example-> ppa:pasgui/ppa
+# add a repository to the system
+#sudo add-apt-repository ppa:user/ppa-name
+o@o-ecb:~$ sudo add-apt-repository ppa:pasgui/ppa
+# update list of latest available software from the repositories in /etc/apt/sources.list
+o@o-ecb:~$ sudo apt-get update
+# install software
+o@o-ecb:~$ sudo apt-get install douml
+
+## Check Ubuntu release
+# LSB = Linux Standard Base
+# https://askubuntu.com/questions/150917/what-terminal-command-checks-the-ubuntu-version#150947
+#$ lsb_release [-d|-c|-r|-a]
+$ lsb_release -d
+$ cat /etc/lsb-release
+# more
+$ cat /etc/*release
+$ cat /etc/issue
+$ uname -a
+# [Alt+F2] "gnome-system-monitor"
+## nice approach (didn't work on ubuntu 14.04)
+	#https://askubuntu.com/questions/12493/how-can-i-find-the-version-of-ubuntu-that-is-installed#21998
+# enter in navigator bar : "ghelp:about-ubuntu"
+# [Alt+F2] "gnome-help ghelp:about-ubuntu"
+
+
+

@@ -1,0 +1,80 @@
+### python-django custom params ###
+
+## while in idle / idle3
+#http://stackoverflow.com/questions/3132265/how-do-i-access-the-command-history-from-idle
+# recall commands :
+# ->last / previous	= ALT+p
+# ->next			= ALT+n
+
+### django installation
+# check version -> if django is already installed
+$ python -c "import django; print(django.get_version())"
+# or enter into python prompt
+$ python3
+>>> import django
+>>> print(django.get_version())
+>>> (Ctrl+D)
+
+## where to start
+#https://docs.djangoproject.com/en/dev/intro/tutorial01/#writing-your-first-django-app-part-1
+## installation guides / instructions (can be reached from the link above)
+# https://docs.djangoproject.com/en/dev/topics/install/#install-the-django-code
+# https://docs.djangoproject.com/en/dev/intro/contributing/
+
+## installation : virtualenv pip
+$ mkdir ~/.virtualenvs
+$ sudo apt-get install python3-venv
+$ python3 -m venv ~/.virtualenvs/djangodev
+
+## in case the command above fails follow the steps :
+# install pip3
+$ sudo apt-get install python3-pip
+$ sudo pip3 install virtualenv
+$ virtualenv --python=`which python3` ~/.virtualenvs/djangodev
+
+## activate virtualenv whenever a new terminal is launched
+$ source ~/.virtualenvs/djangodev/bin/activate
+# add this line in file .bashrc to crate alias
+alias djactivate='source ~/.virtualenvs/djangodev/bin/activate'
+# and resfresh bash or restart terminal
+$ . ~/.bashrc
+
+### on xubuntu 14.04 LTS
+## the command below (both versions) produced errors
+	# ver I
+	$ source ~/.virtualenvs/djangodev/bin/activate
+	# ver II
+	$ . ~/.virtualenvs/djangodev/bin/activate
+## -> if virtualenv isn't activated, django installs on system
+
+$ git clone https://github.com/django/django.git
+$ sudo pip3 install -e /path/to/your/local/clone/django/
+
+
+# check paragraph "Where should this code live" here
+# https://docs.djangoproject.com/en/dev/intro/tutorial01/#creating-a-project
+$ sudo mkdir /home/firstimedjango/
+$ cd /home/firstimedjango/
+	# folder 'firstimedjango' needs a user ownership
+	# otherwise the command django-admin fails
+	$ sudo chown -R user djcode
+# start a new project
+$ django-admin startproject djprojone
+
+
+### idle themes ###
+## to add custom themes edit file ~/.idlerc/config-highlight.cfg
+	## insert theme names and color configuration
+	# [desert]
+	# http://ubuntuforums.org/showthread.php?t=657799
+	# [Matrix]
+	# http://snipplr.com/view/53202/matrix-theme-for-idle/
+	# [Custom Dark]
+	# [Custom Light]
+	# http://stackoverflow.com/questions/33064424/idle-background-color-in-python
+	# [Obsidian]
+	# https://gist.github.com/dsosby/1122904	
+## edit file ~/.idlerc/config-highlight.cfg
+[Theme]
+default = 0
+name = //your default theme name//
