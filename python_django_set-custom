@@ -4,10 +4,16 @@
 #http://stackoverflow.com/questions/3132265/how-do-i-access-the-command-history-from-idle
 # recall commands :
 # ->last / previous	= ALT+p
-# ->next			= ALT+n
+# ->next		= ALT+n
 
 ### django installation
-# check version -> if django is already installed
+## where to start - online guides
+#https://docs.djangoproject.com/en/dev/intro/tutorial01/#writing-your-first-django-app-part-1
+## installation guides / instructions (can be reached from the link above)
+# https://docs.djangoproject.com/en/dev/topics/install/#install-the-django-code
+# https://docs.djangoproject.com/en/dev/intro/contributing/
+
+## check version -> if django is already installed
 $ python -c "import django; print(django.get_version())"
 # or enter into python prompt
 $ python3
@@ -15,51 +21,55 @@ $ python3
 >>> print(django.get_version())
 >>> (Ctrl+D)
 
-## where to start
-#https://docs.djangoproject.com/en/dev/intro/tutorial01/#writing-your-first-django-app-part-1
-## installation guides / instructions (can be reached from the link above)
-# https://docs.djangoproject.com/en/dev/topics/install/#install-the-django-code
-# https://docs.djangoproject.com/en/dev/intro/contributing/
+## uninstall previous version
+# if previously installed with pip, version upgrading and uninstalling is managed with pip
+# otherwise find django folder and remove it manually
+$ python3 -c "import django; print(django.__path__)"
 
 ## installation : virtualenv pip
 $ mkdir ~/.virtualenvs
 $ sudo apt-get install python3-venv
+	# in case of "E: Unable to locate package python3-venv"
+	# verify the package version and try the corresponding
+	$ sudo apt-get install python3.X-venv
 $ python3 -m venv ~/.virtualenvs/djangodev
 
-## in case the command above fails follow the steps :
-# install pip3
-$ sudo apt-get install python3-pip
-$ sudo pip3 install virtualenv
-$ virtualenv --python=`which python3` ~/.virtualenvs/djangodev
+	## in case the command above fails follow the steps below :
+	# install pip3
+	$ sudo apt-get install python3-pip
+	$ sudo pip3 install virtualenv
+	$ virtualenv --python=`which python3` ~/.virtualenvs/djangodev
 
 ## activate virtualenv whenever a new terminal is launched
 $ source ~/.virtualenvs/djangodev/bin/activate
-# add this line in file .bashrc to crate alias
+# add this line in file .bashrc to create alias
 alias djactivate='source ~/.virtualenvs/djangodev/bin/activate'
 # and resfresh bash or restart terminal
 $ . ~/.bashrc
 
-### on xubuntu 14.04 LTS
-## the command below (both versions) produced errors
-	# ver I
-	$ source ~/.virtualenvs/djangodev/bin/activate
-	# ver II
-	$ . ~/.virtualenvs/djangodev/bin/activate
-## -> if virtualenv isn't activated, django installs on system
+## -> if virtualenv isn't activated, django installs systemwide
 
 $ git clone https://github.com/django/django.git
-$ sudo pip3 install -e /path/to/your/local/clone/django/
+(djangodev) $ sudo pip3 install -e /path/to/your/local/clone/django/
+## after install recheck the version
+(djangodev) $ django-admin.py --version
+1.11.dev20160612013256
 
 
-# check paragraph "Where should this code live" here
+## check paragraph "Where should this code live"
 # https://docs.djangoproject.com/en/dev/intro/tutorial01/#creating-a-project
 $ sudo mkdir /home/firstimedjango/
 $ cd /home/firstimedjango/
-	# folder 'firstimedjango' needs a user ownership
+	# folder 'firstimedjango' needs a user ownership if located out of ~
 	# otherwise the command django-admin fails
-	$ sudo chown -R user djcode
-# start a new project
+	$ sudo chown -R user /home/firstimedjango
+
+## start a new project
 $ django-admin startproject djprojone
+
+## \!/ remember -> to avoid possible malfunctioning and timeloss on error searching \!/
+# - previously started project out of virtualenv might become unresposive while later activated in virtualenv
+# - don't forget to set the ownership of the location where code resides (runserver command will not start the server properly)
 
 
 ### idle themes ###
