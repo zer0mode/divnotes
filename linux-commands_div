@@ -10,7 +10,7 @@
 [Alt+F2]
 
 # https://help.ubuntu.com/community/find
-o@o-ecb:/$ find / -iname '*filename*' > ~/found
+$ find / -iname '*filename*' > ~/found
 
 # To show history from all terminals:
 # Add export PROMPT_COMMAND='history -a; history -r' to your .bashrc file.
@@ -28,11 +28,11 @@ $ java -jar yed.jar
 # PPA's location-> ppa:user/ppa-name //example-> ppa:pasgui/ppa
 # add a repository to the system
 #sudo add-apt-repository ppa:user/ppa-name
-o@o-ecb:~$ sudo add-apt-repository ppa:pasgui/ppa
+$ sudo add-apt-repository ppa:pasgui/ppa
 # update list of latest available software from the repositories in /etc/apt/sources.list
-o@o-ecb:~$ sudo apt-get update
+$ sudo apt-get update
 # install software
-o@o-ecb:~$ sudo apt-get install douml
+$ sudo apt-get install douml
 
 ## Check Ubuntu release
 # LSB = Linux Standard Base
@@ -49,6 +49,3 @@ $ uname -a
 	#https://askubuntu.com/questions/12493/how-can-i-find-the-version-of-ubuntu-that-is-installed#21998
 # enter in navigator bar : "ghelp:about-ubuntu"
 # [Alt+F2] "gnome-help ghelp:about-ubuntu"
-
-
-

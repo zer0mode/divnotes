@@ -1,12 +1,22 @@
 ### git install hub go
 ## use standalone install https://github.com/github/hub or
-## install hub from source -> Go environment needs to be available
-	# if installing to custom location check https://golang.org/doc/install
+## install hub from source -> Go programming language needed | check https://golang.org/doc/
 # download a release from https://golang.org/dl/
-# extract archive into /usr/local
-$ tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz
-# add to PATH
-$ export PATH=$PATH:/usr/local/go/bin
+$ wget https://storage.googleapis.com/golang/go$VERSION.$OS-$ARCH.tar.gz
+
+## extracting archive https://github.com/golang/go/blob/master/README.md
+	## into /usr/local (through sudo)
+	$ tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz
+	# add to PATH
+	$ export PATH=$PATH:/usr/local/go/bin
+
+	## to custom location $HOME/gofolder
+	$ cd ~/gofolder
+	$ tar -xzf go$VERSION.$OS-$ARCH.tar.gz
+	# add go/bin to ~/.profile
+	export GOROOT=$HOME/gofolder
+	export PATH=$PATH:$GOROOT/bin
+
 ## cd to hub installation source folder
 $ cd /hub/install/folder
 # clone hub from source
@@ -14,8 +24,9 @@ $ git clone https://github.com/github/hub.git
 $ cd hub
 # build to a folder visible by PATH anywhere in ~
 $ ./script/build -o ~/bin/hub
-# move executable or create a symlink elsewhere by preference
-$ sudo ln -s ~/bin/hub /usr/local/bin/hub
+# $HOME/bin is added to $PATH by .profile so hub should be set to go
+	# if you prefere to locate the built file elsewhere you can create a symlink
+	$ sudo ln -s location/to/my/build/hub /usr/local/bin/hub
 
 # hub shell auto-completion is available by adding to .bashrc
 	# the script is located in hub/etc folder
