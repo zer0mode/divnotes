@@ -2,6 +2,8 @@
 ### run terminal window
 <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd>
 ## ![alt text][tlogo] terminator
+After typing that combination you might be probalby seeing an OS default terminal. Anyway, starting one deserves an appropriate instroduction.
+You can install it later if you would like to play around with all those shortcuts :
 
 action | shortcut | description
 --- | --- |---
@@ -21,7 +23,7 @@ toggle window visibility | <kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>
 close window | <kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>Q</kbd> | *"exit"*
 toggle full screen | <kbd>F11</kbd>
 
-<sup>[check more on launchpad][0]</sup>
+<sup>[check more @ launchpad][0]</sup>
 
 ## run application
 <kbd>Alt</kbd>+<kbd>F2</kbd> and *'type application name'*
@@ -37,21 +39,82 @@ toggle full screen | <kbd>F11</kbd>
 
    `'filename'` goes inside quotes, wildcards `'*'` can be used
 
-   *`>`* piping results in a file prevents polluting the terminal
+   *`>`* directing results in a file prevents polluting the terminal
 
    *`2>`* redirecting error stream; Typically, searching through folders you don't own will invoke *Permission denied* errors. Use **_`2>/dev/null`_** to send errors to void.
 
    Usefull parameters : *`-size`*, *`-atime`*
 
-
 <sup>https://help.ubuntu.com/community/find</sup>
+
+## basic file creations
+*from terminal*
+
+#### create an empty file
+`$ touch newfile`
+
+#### add some content
+Using *`cat >`* will create a file ( or overwrite the file with the same name ) with the following lines of text afterwards.
+
+`$ cat > newfile`  
+`mytext`  
+`and some more`  
+<kbd>Ctrl</kbd>+<kbd>D</kbd>  
+`$`
+
+But *`cat >>`* will instead append the text at the end of file.
+
+`$ cat >> newfile`  
+`.. appended a few moments later`  
+<kbd>Ctrl</kbd>+<kbd>D</kbd>  
+`$`
+
+#### write it somewhere ( to read it )
+To *read* ~ write the file to standard output, eg. terminal type
+
+`$ cat newfile`
+
+*Copy* ~ write that file into another file.
+
+`$ cat newfile > newfile-copy`
+
+#### concatenate 
+This one is nice.
+
+`$ cat newfile - > newfile2`  
+`- above is all i have ever written`  
+<kbd>Ctrl</kbd>+<kbd>D</kbd>  
+`$`
+
+Check that out :
+
+`$ cat newfile newfile2`
+
+And to finish, concatenation the opposite way :
+
+#### putting it all together
+
+`$ cat - newfile newfile2 > sumup`  
+`below are my last words`<kbd>&#x21B2;</kbd>  
+<kbd>Ctrl</kbd>+<kbd>D</kbd>  
+`$`
+
+Just one last, but interesting command. Find out for yourself what does
+
+`$ head sumup`
+
+> hint : append some more lines of text into sumup and retry to head it again
+
+Check also piping with *`less`* and *`sort`* from this nice resource :
+
+<sup>recapped from [LINFO]</sup>
 
 ## show history from all terminals:
 Add to *`.bashrc`* file :
 
     export PROMPT_COMMAND='history -a; history -r'
 
-<sup>check more at : [askubuntu 1] / [askubuntu 2] / [askubuntu 3]</sup>
+<sup>more @ [askubuntu 1] / [askubuntu 2] / [askubuntu 3]</sup>
 
 ## run a jar
 >example -> java -jar runmy.jar
@@ -95,23 +158,25 @@ more
 `$ cat /etc/issue`  
 `$ uname -a`
 
-<sup>check more at : [askubuntu 4]</sup>
+<sup>check @ [askubuntu 4]</sup>
 
 ## gnome system monitor
 <kbd>Alt</kbd>+<kbd>F2</kbd> `"gnome-system-monitor"`
 
 ### nice approach
 enter in navigator bar : "ghelp:about-ubuntu"
+
 <kbd>Alt</kbd>+<kbd>F2</kbd> `"gnome-help ghelp:about-ubuntu"`
 ><sup>gave a try, but wasn't able to get it work on xubuntu 14.04</sup>
 
-<sup>[info]</sup>
+<sup>@ [askubuntu 5]</sup>
 
 [0]:https://launchpad.net/terminator/
 [askubuntu 1]: https://askubuntu.com/questions/80371/bash-history-handling-with-multiple-terminals#80380 "bash-history-handling-with-multiple-terminals#80380"
 [askubuntu 2]: https://askubuntu.com/questions/80371/bash-history-handling-with-multiple-terminals#comment-90735 "bash-history-handling-with-multiple-terminals#comment-90735"
 [askubuntu 3]: https://askubuntu.com/questions/80371/bash-history-handling-with-multiple-terminals#369184 "bash-history-handling-with-multiple-terminals#369184"
 [askubuntu 4]: https://askubuntu.com/questions/150917/what-terminal-command-checks-the-ubuntu-version#150947 "what-terminal-command-checks-the-ubuntu-version#150947"
-[info]: https://askubuntu.com/questions/12493/how-can-i-find-the-version-of-ubuntu-that-is-installed#21998
+[askubuntu 5]: https://askubuntu.com/questions/12493/how-can-i-find-the-version-of-ubuntu-that-is-installed#21998 "how-can-i-find-the-version-of-ubuntu-that-is-installed#21998"
+[LINFO]: http://www.linfo.org/cat.html "The Linux Information Project"
 
 [tlogo]: https://launchpadlibrarian.net/21171650/2.png "terminator never left"
