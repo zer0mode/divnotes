@@ -6,7 +6,7 @@
 
 #### get a go release
 ` $ wget https://storage.googleapis.com/golang/go$VERSION.$OS-$ARCH.tar.gz `
-> find a suitable version on [golang][2] page
+> find a suitable version on [golang][2] page or on [ubuntu packages][3]
 
 #### extracting archive
 - **To custom location**
@@ -56,3 +56,4 @@ The script `hub.bash_completion.sh` is located in **hub/etc** folder. Adding the
 [0]: https://github.com/github/hub
 [1]: https://golang.org/doc/
 [2]: https://golang.org/dl/
+[3]: http://packages.ubuntu.com/golang
