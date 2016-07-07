@@ -147,7 +147,7 @@ List location : *`/etc/apt/sources.list`*
 ## Check Ubuntu release
 LSB = Linux Standard Base
 
->$ lsb_release [-d|-c|-r|-a]
+>lsb_release [-d|-c|-r|-a]
 
 `$ lsb_release -d`  
 `$ cat /etc/lsb-release`
@@ -159,6 +159,45 @@ more
 `$ uname -a`
 
 <sup>check @ [askubuntu 4]</sup>
+
+## Check installed packages
+Complete list
+
+`$ dpkg --get-selections | more`
+
+Filtered list
+
+`$ dpkg --get-selections | grep python`
+
+List packages matching given package-name-pattern 
+>example : dpkg-query -l check*pattern
+
+`$ dpkg-query -l python3*`
+
+Search package with a given filename-search-pattern
+
+`$ dpkg-query -S python3*`
+
+List of files (locations) installed by package
+
+`$ dpkg-query -L python3`
+
+*`dpkg` can be used as shortcut for dpkg-query*
+
+More useful commands :
+
+`$ dpkg -s python3 | grep Version`  
+`$ dpkg -s python3 | grep Status`
+
+<sub>dpkg [cheatlist]</sub>
+
+## Check available packages
+
+List of supported package versions for particular linux distribution [http://packages.ubuntu.com/](http://packages.ubuntu.com/package name)package name
+
+Search package by name or description
+
+`$ apt-cache search postgresql-9.5`
 
 ## gnome system monitor
 <kbd>Alt</kbd>+<kbd>F2</kbd> `"gnome-system-monitor"`
@@ -177,6 +216,7 @@ enter in navigator bar : "ghelp:about-ubuntu"
 [askubuntu 3]: https://askubuntu.com/questions/80371/bash-history-handling-with-multiple-terminals#369184 "bash-history-handling-with-multiple-terminals#369184"
 [askubuntu 4]: https://askubuntu.com/questions/150917/what-terminal-command-checks-the-ubuntu-version#150947 "what-terminal-command-checks-the-ubuntu-version#150947"
 [askubuntu 5]: https://askubuntu.com/questions/12493/how-can-i-find-the-version-of-ubuntu-that-is-installed#21998 "how-can-i-find-the-version-of-ubuntu-that-is-installed#21998"
+[cheatlist]: http://www.cyberciti.biz/howto/question/linux/dpkg-cheat-sheet.php
 [LINFO]: http://www.linfo.org/cat.html "The Linux Information Project"
 
 [tlogo]: https://launchpadlibrarian.net/21171650/2.png "terminator never left"
