@@ -71,6 +71,41 @@ $ django-admin startproject djprojone
 # - previously started project out of virtualenv might become unresposive while later activated in virtualenv
 # - don't forget to set the ownership of the location where code resides (runserver command will not start the server properly)
 
+## database installation PostgreSQL
+# installing a default ubuntu version
+$ sudo apt-get install postgresql-$VERSION
+
+	# installing another/latest version via PostgreSQL Apt Repository
+	# create pgdg.list
+	$ sudo touch /etc/apt/sources.list.d/pgdg.list
+	# add the repository for your current ubuntu release
+	$ sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+	# import the repository key
+	$ wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+	# update repository
+	$ sudo apt-get update
+	$ sudo apt-get upgrade
+
+# install postresql, postGIS, pgrouting, pgadmin
+$ sudo apt-get install postgresql-9.5-postgis-2.2 postgresql-9.5-pgrouting pgadmin3
+# subpackage contrib gets installed automatically; it provides additional supplied modules like "fuzzystrmatch"
+$ sudo apt-get install postgresql-contrib-9.5
+
+info extracted from :
+http://postgis.net/install/
+https://www.postgresql.org/download/linux/ubuntu/
+https://wiki.postgresql.org/wiki/Apt
+http://trac.osgeo.org/postgis/wiki/UsersWikiPostGIS22UbuntuPGSQL95Apt
+
+
+
+# before installing the PostgreSQL adapter psycopg2 some packages are needed
+	# if PostreSQL is installed run
+	$ sudo apt-get install python3-dev
+	# otherwise include also
+	$ sudo apt-get install libpq-dev python3-dev
+# and then the adapter for Python (activate virtualenv)
+(djangodev) $ pip install psycopg2
 
 ### idle themes ###
 ## to add custom themes edit file ~/.idlerc/config-highlight.cfg
