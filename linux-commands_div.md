@@ -1,5 +1,25 @@
 # diverse linux commands to ease your linux experience
-### run terminal window
+## Contents
+- [Run terminal](#markdown-header-run-terminal)
+- [Terminator](#terminator)
+- [Run application](#run-application) :  
+    [nice approach](#nice-approach)
+- [Search on drive](#search-on-drive)
+- [Folders](#folders) :  
+        [check directory size](#check-directory-size) | [show a folder tree](#show-a-folder-tree-2-levels-deep) | [copy directories recursively](#copy-directories-recursively)
+- [Files](#files) :  
+    - [basic file creations](#basic-file-creations) :  
+        [create an empty file](#create-an-empty-file) | [add some content](#add-some-content) | [write it somewhere](#write-it-somewhere-to-read-it) | [concatenate](#concatenate) | [putting it all together](#putting-it-all-together) | [difference between files](#difference-between-files) | [view contents of a zip file](#view-contents-of-a-zip-file)
+    - [symbolic links](#symbolic-links)
+- [Show history from all terminals](#show-history-from-all-terminals)
+- [Run a jar](#run-a-jar)
+- [PPA - Personal Package Archive](#ppa-personal-package-archive) :  
+[PPA's location](#ppas-location) | [add a repository to the system](#add-a-repository-to-the-system) | [update list of latest available software from the repositories](#update-list-of-latest-available-software-from-the-repositories) | [install software](#install-software)
+- [Check Ubuntu release](#user-content-check-ubuntu-release)
+- [Check installed packages](#check-installed-packages)
+- [Check available packages](#check-available-packages)
+    
+## run terminal
 <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd>
 ## ![alt text][tlogo] terminator
 After typing that combination you might be probalby seeing an OS default terminal. Anyway, starting one deserves an appropriate instroduction.
@@ -26,28 +46,72 @@ toggle full screen | <kbd>F11</kbd>
 <sup>[check more @ launchpad][0]</sup>
 
 ## run application
-<kbd>Alt</kbd>+<kbd>F2</kbd> and *'type application name'*
 
-## search your drive
+>example : gnome system monitor
+
+<kbd>Alt</kbd>+<kbd>F2</kbd> `"gnome-system-monitor"`
+
+### nice approach
+enter in navigator bar : "ghelp:about-ubuntu"
+
+<kbd>Alt</kbd>+<kbd>F2</kbd> `"gnome-help ghelp:about-ubuntu"`
+><sup>gave a try, but wasn't able to get it work on xubuntu 14.04</sup>
+
+<sup>@ [askubuntu 5]</sup>
+
+## search on drive
 `$ find /search/this/folder/ -iname '*filename*' > ~/found 2>~/errors`
 
 - Command arguments :
 
-   To search on a root level use *`/`* instead *`/search/this/folder/`*. The sub directories are included.
+    To search on a root level use *`/`* instead *`/search/this/folder/`*. The sub directories are included.
 
-   *`-iname`* will perform case-insensitive search
+    *`-iname`* will perform case-insensitive search
 
-   `'filename'` goes inside quotes, wildcards `'*'` can be used
+    `'filename'` goes inside quotes, wildcards `'*'` can be used
 
-   *`>`* directing results in a file prevents polluting the terminal
+    *`>`* directing results in a file prevents polluting the terminal
 
-   *`2>`* redirecting error stream; Typically, searching through folders you don't own will invoke *Permission denied* errors. Use **_`2>/dev/null`_** to send errors to void.
+    *`2>`* redirecting error stream; Typically, searching through folders you don't own will invoke *Permission denied* errors. Use **_`2>/dev/null`_** to send errors to void.
 
-   Usefull parameters : *`-size`*, *`-atime`*
+    Usefull parameters : *`-size`*, *`-atime`*
 
 <sup>https://help.ubuntu.com/community/find</sup>
+<sup>@ [superuser 0]</sup>
 
-## basic file creations
+## folders
+#### check directory size
+
+`$ tree -L 1 --du -hs`
+`$ ls -l`
+`$ df -h`
+
+<sup>@ [askubuntu 6]</sup>
+
+#### show a folder tree 2 levels deep
+
+`$ tree -d -L 2`
+
+#### copy directories recursively
+
+`$ cp -a /source/. /dest/`
+
+- Command arguments :
+
+    `-a`, `--archivesame` as `-dpR`  
+    `-d` same as `--no-dereference --preserve=links`  
+    `-p` same as `--preserve=mode,ownership,timestamps`  
+    `-R`, `-r`, `--recursivecopy` copy recursively
+
+<sup>@ [askubuntu 7], [mancp]</sup>
+
+>better piping the results
+
+`$ diff file.old file.new | tee modif_old-new.txt`
+
+## files
+
+### basic file creations
 *from terminal*
 
 #### create an empty file
@@ -108,6 +172,23 @@ Just one last, but interesting command. Find out for yourself what does
 Check also piping with *`less`* and *`sort`* from this nice resource :
 
 <sup>recapped from [LINFO]</sup>
+
+#### difference between files
+`$ diff file.old file.new`
+
+#### view contents of a zip file
+`$ unzip -l zipfile`
+
+<sup>@ [superuser 1]</sup>
+
+### symbolic links
+create a symlink
+
+`$ ln -s /path/to/file /path/to/symlink`
+
+find link's path
+
+`$ readlink -f symlinkName`
 
 ## show history from all terminals:
 Add to *`.bashrc`* file :
@@ -186,10 +267,11 @@ List of files (locations) installed by package
 
 More useful commands :
 
+`$ dpkg -l > ~/pkglist.txt`
 `$ dpkg -s python3 | grep Version`  
 `$ dpkg -s python3 | grep Status`
 
-<sub>dpkg [cheatlist]</sub>
+<sup>dpkg [cheatlist]</sup>
 
 ## Check available packages
 
@@ -199,24 +281,21 @@ Search package by name or description
 
 `$ apt-cache search postgresql-9.5`
 
-## gnome system monitor
-<kbd>Alt</kbd>+<kbd>F2</kbd> `"gnome-system-monitor"`
-
-### nice approach
-enter in navigator bar : "ghelp:about-ubuntu"
-
-<kbd>Alt</kbd>+<kbd>F2</kbd> `"gnome-help ghelp:about-ubuntu"`
-><sup>gave a try, but wasn't able to get it work on xubuntu 14.04</sup>
-
-<sup>@ [askubuntu 5]</sup>
-
 [0]:https://launchpad.net/terminator/
 [askubuntu 1]: https://askubuntu.com/questions/80371/bash-history-handling-with-multiple-terminals#80380 "bash-history-handling-with-multiple-terminals#80380"
 [askubuntu 2]: https://askubuntu.com/questions/80371/bash-history-handling-with-multiple-terminals#comment-90735 "bash-history-handling-with-multiple-terminals#comment-90735"
 [askubuntu 3]: https://askubuntu.com/questions/80371/bash-history-handling-with-multiple-terminals#369184 "bash-history-handling-with-multiple-terminals#369184"
 [askubuntu 4]: https://askubuntu.com/questions/150917/what-terminal-command-checks-the-ubuntu-version#150947 "what-terminal-command-checks-the-ubuntu-version#150947"
 [askubuntu 5]: https://askubuntu.com/questions/12493/how-can-i-find-the-version-of-ubuntu-that-is-installed#21998 "how-can-i-find-the-version-of-ubuntu-that-is-installed#21998"
+[askubuntu 6]: http://askubuntu.com/questions/1224/how-do-i-determine-the-total-size-of-a-directory-folder-from-the-command-line#answer-1226 "how-do-i-determine-the-total-size-of-a-directory-folder-from-the-command-line#1226"
+[askubuntu 7]: http://askubuntu.com/questions/86822/how-can-i-copy-the-contents-of-a-folder-to-another-folder-in-a-different-directo#86891 "how-can-i-copy-the-contents-of-a-folder-to-another-folder-in-a-different-directo#86891"
+
 [cheatlist]: http://www.cyberciti.biz/howto/question/linux/dpkg-cheat-sheet.php
 [LINFO]: http://www.linfo.org/cat.html "The Linux Information Project"
 
 [tlogo]: https://launchpadlibrarian.net/21171650/2.png "terminator never left"
+
+[mancp]: http://manpages.ubuntu.com/manpages/intrepid/man1/cp.1.html
+
+[superuser 0]: superuser.com/questions/179978/avoid-permission-denied-spam-when-using-find-command "avoid-permission-denied-spam-when-using-find-command"
+[superuser 1]: http://superuser.com/questions/216617/view-files-in-zip-archive-on-linux#216675 "view-files-in-zip-archive-on-linux#216675"
