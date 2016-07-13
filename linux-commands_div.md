@@ -1,7 +1,7 @@
 # diverse linux commands to ease your linux experience
 ## Contents
-- [Run terminal](#markdown-header-run-terminal)
-- [Terminator](#terminator)
+- [Run terminal](#run-terminal)
+- [Terminator](#-terminator)
 - [Run application](#run-application) :  
     [nice approach](#nice-approach)
 - [Search on drive](#search-on-drive)
@@ -13,7 +13,7 @@
     - [symbolic links](#symbolic-links)
 - [Show history from all terminals](#show-history-from-all-terminals)
 - [Run a jar](#run-a-jar)
-- [PPA - Personal Package Archive](#ppa-personal-package-archive) :  
+- [PPA - Personal Package Archive](#ppa---personal-package-archive) :  
 [PPA's location](#ppas-location) | [add a repository to the system](#add-a-repository-to-the-system) | [update list of latest available software from the repositories](#update-list-of-latest-available-software-from-the-repositories) | [install software](#install-software)
 - [Check Ubuntu release](#user-content-check-ubuntu-release)
 - [Check installed packages](#check-installed-packages)
