@@ -71,41 +71,164 @@ $ django-admin startproject djprojone
 # - previously started project out of virtualenv might become unresposive while later activated in virtualenv
 # - don't forget to set the ownership of the location where code resides (runserver command will not start the server properly)
 
+
+
+# Install PostgreSQL, PostGIS, pgadmin, pgrouting, contrib, other subpackages & libraries
+# PostgreSQL
+
 ## database installation PostgreSQL
 # installing a default ubuntu version
-$ sudo apt-get install postgresql-$VERSION
+	# postgresql-$VERSION=9.5
+	$ apt-get install postgresql-$VERSION
 
-	# installing another/latest version via PostgreSQL Apt Repository
-	# create pgdg.list
-	$ sudo touch /etc/apt/sources.list.d/pgdg.list
-	# add the repository for your current ubuntu release
-	$ sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-	# import the repository key
-	$ wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-	# update repository
-	$ sudo apt-get update
-	$ sudo apt-get upgrade
+		# installing another/latest version via PostgreSQL Apt Repository
+		# create pgdg.list
+		$ sudo touch /etc/apt/sources.list.d/pgdg.list
+		# add the repository for your current ubuntu release
+		$ sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 
-# install postresql, postGIS, pgrouting, pgadmin
-$ sudo apt-get install postgresql-9.5-postgis-2.2 postgresql-9.5-pgrouting pgadmin3
-# subpackage contrib gets installed automatically; it provides additional supplied modules like "fuzzystrmatch"
-$ sudo apt-get install postgresql-contrib-9.5
+		# import the repository key
+		sudo apt-get install wget ca-certificates	
+		$ wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+		# update repository
+		$ sudo apt-get update
+		$ sudo apt-get upgrade
+		$ sudo apt-get install postgresql-$VERSION
+
+# Install includes subpackages :
+# "contrib" - provides additional supplied modules like "fuzzystrmatch"
+# pgrouting"
+	# In case they are not provided within the install they will be probably a missing option with GeoDjango
+	#$ sudo apt-get install postgresql-contrib-9.5 postgresql-9.5-pgrouting
+
+# UGI for db administration if needed :
+$ sudo apt-get install pgadmin3
 
 info extracted from :
 http://postgis.net/install/
 https://www.postgresql.org/download/linux/ubuntu/
-https://wiki.postgresql.org/wiki/Apt
 http://trac.osgeo.org/postgis/wiki/UsersWikiPostGIS22UbuntuPGSQL95Apt
+https://wiki.postgresql.org/wiki/Apt
 
 
 
-# before installing the PostgreSQL adapter psycopg2 some packages are needed
-	# if PostreSQL is installed run
-	$ sudo apt-get install python3-dev
-	# otherwise include also
+# Geospatial libraries are recommended / required to run GeoDjango with corresponding spatial database ~ PostGIS
+# requirements table : https://docs.djangoproject.com/en/1.9/ref/contrib/gis/install/geolibs/#installing-geospatial-libraries
+# comparison matrix : https://trac.osgeo.org/postgis/wiki/UsersWikiPostgreSQLPostGIS
+
+# binutils - GNU assembler, linker and binary utilities /Python needs find_library routine
+	#may be already on system
+# libproj-dev - Cartographic projection library (development files)
+# gdal-bin - Geospatial Data Abstraction Library - Utility programs /for GDAL command line programs like ogr2ogr
+	#may be already on system
+$ sudo apt-get install binutils libproj-dev gdal-bin
+
+
+# libgeoip1 - non-DNS IP-to-country resolver library /for GeoIP support
+# python-gdal - Python bindings to the Geospatial Data Abstraction Library /for GDAL’s own Python bindings - includes interfaces for raster manipulation
+
+# GEOS - refer to https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/geolibs/#geos
+	# geos-$VERSION.tar.bz2=3.5.0
+
+	$ wget http://download.osgeo.org/geos/geos-$VERSION.tar.bz2
+	$ tar xjf geos-$VERSION.tar.bz2
+	$ cd geos-$VERSION
+	$ ./configure
+	$ make
+	$ sudo make install
+	$ sudo ldconfig
+	$ cd ..
+
+# PROJ.4 - geospatial data converter for differen coordinate reference systems
+# https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/geolibs/#proj4
+	# proj-$VERSION.tar.gz=4.9.2	# proj-datumgrid-$VERSION.tar.gz=1.5
+
+	$ wget http://download.osgeo.org/proj/proj-$VERSION.tar.gz
+	$ wget http://download.osgeo.org/proj/proj-datumgrid-$VERSION.tar.gz
+	$ tar xzf proj-$VERSION.tar.gz
+
+	# important! decompress contents of proj-datumgrid into proj-$VERSION/nad directory
+	$ cd proj-$VERSION/nad
+	$ tar xzf ../../proj-datumgrid-$VERSION.tar.gz
+	$ cd ..
+
+	$ ./configure
+	$ make
+	$ sudo make install
+	$ sudo ldconfig
+	$ cd ..
+
+# GDAL opensource geospatial library gor vector (OGR) and raster data formats
+	# "Geospatial Object Oriented Data Abstraction Library" (GOODAL)
+# GEOS and PROJ should be installed prior to building GDAL
+# GDAL commands http://download.osgeo.org/gdal/presentations/OpenSource_Weds_Andre_CUGOS.pdf
+	# gdal-$VERSION.tar.gz=2.1.1
+
+	$ wget http://download.osgeo.org/gdal/CURRENT/gdal-$VERSION.tar.gz
+	$ tar xzf gdal-$VERSION.tar.gz
+	$ cd gdal-$VERSION
+
+	$ ./configure
+	$ make
+	$ sudo make install
+	$ sudo ldconfig	
+	$ cd ..
+
+# The location of external shared libraries (GEOS, GDAL) has to be specified. Tipical library directory for software built from source is /usr/local/lib. By including this path in the environment variable LD_LIBRARY_PATH the configuration should be set on a per-user basis.
+>> export LD_LIBRARY_PATH=/usr/local/lib
+
+# To configure it system-wide set the path in file /etc/ld.so.conf
+	$ sudo echo /usr/local/lib >> /etc/ld.so.conf
+	$ sudo ldconfig
+
+# If the libraries are located in a particular location then that has to be set in Django settings file :
+>> GEOS_LIBRARY_PATH = '/home/user/local/lib/libgeos_c.so'
+>> GDAL_LIBRARY_PATH = '/home/user/local/lib/libgdal.so'
+
+
+# The PostgreSQL adapter psycopg2 is required when using GeoDjango with PostGIS. Before this module some packages are needed :
+	# if PostreSQL is installed some of the packages might be already present on the system
 	$ sudo apt-get install libpq-dev python3-dev
+
 # and then the adapter for Python (activate virtualenv)
 (djangodev) $ pip install psycopg2
+
+# Other libraries might be needed :
+# JSON-C - for importing GeoJSON (via the function ST_GeomFromGeoJson)
+	# json-c-$VERSION.tar.gz=0.12.1-20160607
+	$ wget https://github.com/json-c/json-c/archive/json-c-0.12.1-20160607.tar.gz
+	$ tar xf json-c-$VERSION.tar.gz
+	$ cd json-c-$VERSION
+
+#libxml2
+	# libxml2-$VERSION.tar.gz=2.9.4
+	$ wget ftp://xmlsoft.org/libxml2/libxml2-$VERSION.tar.gz
+	$ tar xf libxml2-$VERSION.tar.gz
+	$ cd libxml2-$VERSION
+
+	# then build in folder of each extracted library
+	$ ./configure
+	$ make
+	$ sudo make install
+	$ sudo ldconfig	
+	$ cd ..
+
+# PostGIS - spatial component for PostgreSQL
+# GEOS, PROJ.4 and GDAL should be installed prior to building PostGIS
+	# postgis-$VERSION.tar.gz=2.2.2
+	$ wget http://download.osgeo.org/postgis/source/postgis-$VERSION.tar.gz
+	$ tar xf postgis-$VERSION.tar.gz
+	$ cd postgis-$VERSION
+	$ ./configure
+# If an error occurs it's probably missing PostgreSQL server development packages
+# In that case re-run ./configure after installing server-dev
+$ sudo apt-get install postgresql-server-dev-$VERSION
+
+	$ make
+	$ sudo make install
+	$ sudo ldconfig	
+	$ cd ..
+
 
 ### idle themes ###
 ## to add custom themes edit file ~/.idlerc/config-highlight.cfg
