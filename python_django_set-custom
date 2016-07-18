@@ -174,21 +174,21 @@ $ sudo apt-get install binutils libproj-dev gdal-bin
 	$ sudo ldconfig	
 	$ cd ..
 
-# The location of external shared libraries (GEOS, GDAL) has to be specified. Tipical library directory for software built from source is /usr/local/lib. By including this path in the environment variable LD_LIBRARY_PATH the configuration should be set on a per-user basis.
+# The location of external shared libraries (GEOS, GDAL) has to be specified. Tipical library directory for software built from source is /usr/local/lib. By including this path in the environment variable LD_LIBRARY_PATH the configuration is set on a per-user basis.
 >> export LD_LIBRARY_PATH=/usr/local/lib
 
-# To configure it system-wide set the path in file /etc/ld.so.conf
+	# To configure it system-wide set the path in file /etc/ld.so.conf
 	$ sudo echo /usr/local/lib >> /etc/ld.so.conf
 	$ sudo ldconfig
 
-# If the libraries are located in a particular location then that has to be set in Django settings file :
->> GEOS_LIBRARY_PATH = '/home/user/local/lib/libgeos_c.so'
->> GDAL_LIBRARY_PATH = '/home/user/local/lib/libgdal.so'
+	# Libraries located in a particular location should be set in Django settings file :
+	>> GEOS_LIBRARY_PATH = '/home/user/local/lib/libgeos_c.so'
+	>> GDAL_LIBRARY_PATH = '/home/user/local/lib/libgdal.so'
 
 
-# The PostgreSQL adapter psycopg2 is required when using GeoDjango with PostGIS. Before this module some packages are needed :
-	# if PostreSQL is installed some of the packages might be already present on the system
-	$ sudo apt-get install libpq-dev python3-dev
+# Running GeoDjango with PostGIS requires the PostgreSQL adapter psycopg2. Prior to its installation the packages below are needed (may be already on system if PostreSQL is present) :
+	$ sudo apt-get install python3-dev		# /for compiling psycopg2 in virtualenv
+	$ sudo apt-get install libpq-dev
 
 # and then the adapter for Python (activate virtualenv)
 (djangodev) $ pip install psycopg2
