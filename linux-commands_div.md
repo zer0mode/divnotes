@@ -43,6 +43,7 @@ toggle window visibility | <kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>
 close window | <kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>Q</kbd> | *"exit"*
 toggle full screen | <kbd>F11</kbd>
 
+<sup>shortcuts http://linux.die.net/man/1/terminator</sup>  
 <sup>[check more @ launchpad][0]</sup>
 
 ## run application
