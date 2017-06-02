@@ -10,7 +10,7 @@ Do not use
 
 it's ancient, obsolete and unsafe
 
-<sup>info@[serverfault] (http://serverfault.com/questions/601140/whats-the-difference-between-sudo-su-postgres-and-sudo-u-postgres#601141 "whats-the-difference-between-sudo-su-postgres-and-sudo-u-postgres")</sup>
+<sup>info@[serverfault][serverfault]</sup>
 
 #### create db and user
 `=# CREATE DATABASE hotdb;`  
@@ -19,7 +19,7 @@ it's ancient, obsolete and unsafe
 #### grant
 `=# GRANT ALL PRIVILEGES ON DATABASE hotgisdb TO hotuser;`
 
-*hotuser* will get the privileges of the granting user granting
+_**hotuser**_ will get all available privileges on database **`hotgisdb`**.
 
 #### change database owner
 >Status owner has broader rights than a role with privileges over a db
@@ -39,11 +39,11 @@ it's ancient, obsolete and unsafe
 ### Configuration files
 You might want to modify *pg_hba.conf* or *pg_ident.conf* located in /etc/postgresql/$VERSION/main.
 
-*pg_hba.conf*
+_**pg_hba.conf**_
 
     # Database administrative login by Unix domain socket
     local   all             postgres                                ident
-    local   hotdb           user<*>                                 ident map=userisnowhot
+    local   hotdb           hotuser                                 ident map=userisnowhot
 
     # TYPE  DATABASE        USER            ADDRESS                 METHOD
     
@@ -52,13 +52,22 @@ You might want to modify *pg_hba.conf* or *pg_ident.conf* located in /etc/postgr
     #local   all             all                                     ident
     local   all             all                                     md5
 
-*pg_ident.conf*
+_**pg_ident.conf**_
 
     # MAPNAME       SYSTEM-USERNAME         PG-USERNAME
     userisnowhot            user<*>            hotuser
 
 <sup>\<*\> _standard system user name_</sup>
 <sup>https://www.postgresql.org/docs/current/static/auth-username-maps.html</sup>
+
+Some applications connect using the 127.0.0.1 address. In this case postgresql will refuse user connections via *local host*. A typical reported error would be *FATAL: no pg_hba.conf entry for host "127.0.0.1" *. The connection information should then be set like this :
+
+    # TYPE  DATABASE        USER            ADDRESS                 METHOD
+    # IPv4 local connections:
+    host    hotdb           hotuser         localhost               md5
+    # or in IPv4 connection form
+    host    hotdb           hotuser         127.0.0.1/32            md5
+<sup>See more [examples][postgresql] for pg_hba.conf for further details.</sup>
 
 Modifying configuration files requiers service restart.
 
@@ -121,88 +130,5 @@ general :
 
 <sup>https://www.postgresql.org/docs/9.3/static/app-psql.html#APP-PSQL-META-COMMANDS</sup>
 
-### Establish django postgresql spatial database
-(repeting the excercise from above)
-https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/postgis/#managing-the-database
-
-`$ sudo -u postgres psql`  
-
-    =# CREATE USER hotdjango PASSWORD 'unchained';
-
-To operate with a postgresql database Django needs permitions for :
-SELECT, INSERT, UPDATE, DELETE
-
-https://docs.djangoproject.com/en/dev/topics/install/#get-your-database-running
-
-Check all the permition in the table at the bottom of [this]: https://www.postgresql.org/docs/9.5/static/sql-grant.html#SQL-GRANT-NOTES paragraph.
-
-https://www.postgresql.org/docs/current/static/ddl-priv.html
-
-This suffices for managing GeoDjango projects. Should the user be a database owner, this is done by :
-
-    =# CREATE DATABASE hotdjangodb OWNER TO hotdjango;
-
-or by ALTERing an existing db
-
-
-Create extensions or less restricted actions over db pool superuser status is required.
-
-    =# ALTER ROLE hotdjango CREATEDB SUPERUSER NOCREATEROLE;
-    =# \q
-
-`$ psql hotdjangodb hotdjango`
-
-    => CREATE EXTENSION postgis ;
-
-\+ other extensions if required :  
-
-    => CREATE EXTENSION postgis_topology ;
-    => CREATE EXTENSION fuzzystrmatching ;
-    => CREATE EXTENSION tiger... ;
-    => \q
-
-### Optimizations
---
-Django needs the following parameters for its database connections:
-
-    - client_encoding: 'UTF8'
-    - default_transaction_isolation: 'read committed' by default, or the value set in the connection options (see below)
-    - timezone: 'UTC' when USE_TZ is True, value of TIME_ZONE otherwise
-
-If these parameters already have the correct values, Django won’t set them for every new connection, which improves performance slightly. You can configure them directly in postgresql.conf or more conveniently per database user with ALTER ROLE.
-
-Django will work just fine without this optimization, but each new connection will do some additional queries to set these parameters.
---
-https://docs.djangoproject.com/en/1.9/ref/databases/#optimizing-postgresql-s-configuration
-
-Apply these settings to a role :
-
-    =# ALTER ROLE hotdjango SET client_encoding TO 'utf8';
-    =# ALTER ROLE hotdjango SET default_transaction_isolation TO 'read committed';
-    =# ALTER ROLE hotdjango SET timezone TO 'UTC';
-
-https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04#create-a-database-and-database-user
-
-
-#### Setting timezones
-http://stackoverflow.com/questions/11779293/how-to-set-timezone-for-postgres-psql/#11779417
-
-First try results :
-- settings.py engine setup :
-    'ENGINE': 'django.contrib.gis.db.backends.postgis',
-    
-  psycopg2 thows error
-
-    psycopg2.ProgrammingError: permission denied to create extension "postgis" 
-    HINT:  Must be superuser to create this extension.
-
-    django.db.utils.ProgrammingError: permission denied to create extension "postgis"  
-    HINT:  Must be superuser to create this extension.
-
-- postgis extension has to be created (by postgres) through psql interface  
-
-    AttributeError: 'DatabaseOperations' object has no attribute 'geo_db_type'
-
-- if the database owner has to be postgres even if the privileges have been granted to "django" database owner
-
-
+[serverfault]: http://serverfault.com/questions/601140/whats-the-difference-between-sudo-su-postgres-and-sudo-u-postgres#601141 "whats-the-difference-between-sudo-su-postgres-and-sudo-u-postgres"
+[postgresql]: https://www.postgresql.org/docs/9.4/static/auth-pg-hba-conf.html#EXAMPLE-PG-HBA.CONF "EXAMPLE-PG-HBA.CONF"
